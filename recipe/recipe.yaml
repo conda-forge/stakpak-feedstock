@@ -16,11 +16,13 @@ build:
       CARGO_PROFILE_RELEASE_STRIP: symbols
       CARGO_PROFILE_RELEASE_LTO: fat
     content:
-      - if: unix
+      - if: linux
         then:
-          - cargo auditable install --locked --no-track --bins --all-features --root ${{ PREFIX }} --path cli
+          - cargo auditable install --locked --no-track --bins --features jemalloc --root ${{ PREFIX }} --path cli
+        else if: unix
+          - cargo auditable install --locked --no-track --bins --root ${{ PREFIX }} --path cli
         else:
-          - cargo auditable install --locked --no-track --bins --all-features --root %LIBRARY_PREFIX% --path cli
+          - cargo auditable install --locked --no-track --bins --root %LIBRARY_PREFIX% --path cli
       - cargo-bundle-licenses --format yaml --output ./THIRDPARTY.yml
 
 requirements:
@@ -31,6 +33,8 @@ requirements:
     - cargo-bundle-licenses
     - cargo-auditable
     - pkg-config
+    - if: linux
+      then: make
 
 tests:
   - script:
