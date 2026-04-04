@@ -10,7 +10,7 @@ source:
   sha256: a8a1a66f2c8175bd046d2f56a9f7fca2e5715304abc2d3de2240a66f7b1c9fe4
 
 build:
-  number: 0
+  number: 1
   script:
     env:
       CARGO_PROFILE_RELEASE_STRIP: symbols
@@ -42,8 +42,10 @@ requirements:
 
 tests:
   - script:
-      - stakpak help
-      - stakpak version
+      - if: build_platform == host_platform
+        then:
+          - stakpak help
+          - stakpak version
   - package_contents:
       bin:
         - stakpak
