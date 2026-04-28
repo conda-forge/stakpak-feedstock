@@ -1,5 +1,5 @@
 context:
-  version: "0.3.76"
+  version: "0.3.77"
 
 package:
   name: stakpak
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/stakpak/agent/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 77a4030c36400bd7887c372e865d44d0f95aa13b9b4403e6eb61e1b44b3251cb
+  sha256: 59f2cc23e669d0e31ddfd82680ed108aa666c165bc63195414616a89b6e8d4cd
 
 build:
   number: 0
