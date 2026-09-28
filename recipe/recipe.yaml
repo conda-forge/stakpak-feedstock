@@ -1,5 +1,6 @@
 context:
   version: "0.3.88"
+  extra_features: ${{ "" if win else "jemalloc" }}
 
 package:
   name: stakpak
@@ -22,14 +23,12 @@ build:
       AR_x86_64_pc_windows_msvc: llvm-lib
       CC_x86_64_pc_windows_msvc: clang-cl
       CXX_x86_64_pc_windows_msvc: clang-cl
+    interpreter: nu
     content:
+      - let prefix = $env.LIBRARY_PREFIX? | default $env.PREFIX
+      # build main app and generate license data
       - cd cli
-      - if: unix
-        then:
-          - cargo auditable install --path=. --root="$PREFIX" --no-track --locked --bins --features=jemalloc
-      - if: win
-        then:
-          - cargo auditable install --path=. --root="%LIBRARY_PREFIX%" --no-track --locked --bins
+      - cargo auditable install --path=. --root=($prefix) --no-track --locked --bins --features=${{ extra_features }}
       - cargo-bundle-licenses --format=yaml --output=../THIRDPARTY.yml
 
 requirements:
@@ -40,6 +39,7 @@ requirements:
     - cargo-auditable
     - cargo-bundle-licenses
     - cmake
+    - nushell
     - pkg-config
     - if: linux
       then: make
