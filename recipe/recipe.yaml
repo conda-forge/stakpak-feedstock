@@ -40,7 +40,7 @@ requirements:
     - cargo-bundle-licenses
     - cmake
     - nushell
-    - pkg-config
+    - pkgconf
     - if: linux
       then: make
     - if: win
